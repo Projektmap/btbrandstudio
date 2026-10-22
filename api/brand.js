@@ -40,14 +40,16 @@ module.exports = async (req, res) => {
     const r = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: { "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json" },
-      body: JSON.stringify({ model: MODEL, max_tokens: 8000, messages: [{ role: "user", content: prompt(z) }] })
+      body: JSON.stringify({ model: MODEL, max_tokens: 16000, messages: [{ role: "user", content: prompt(z) }] })
     });
     if (r.status === 429) return res.status(429).json({ error: "rate_limited" });
-    if (!r.ok) return res.status(502).json({ error: "api", status: r.status });
+    if (!r.ok) { let m = ""; try { m = (await r.json()).error?.message || ""; } catch (e) {} return res.status(502).json({ error: "api", status: r.status, detail: m.slice(0, 300) }); }
     const j = await r.json();
+    if (j.stop_reason === "max_tokens") return res.status(502).json({ error: "truncated", detail: "Odpověď byla příliš dlouhá." });
     const text = (j.content || []).filter(c => c.type === "text").map(c => c.text).join("");
     const s = text.indexOf("{"), e = text.lastIndexOf("}");
-    const brand = JSON.parse(text.slice(s, e + 1));
+    let brand;
+    try { brand = JSON.parse(text.slice(s, e + 1)); } catch (pe) { return res.status(502).json({ error: "parse", detail: "Odpověď modelu nebyla platný JSON." }); }
     return res.status(200).json({ brand });
-  } catch (err) { return res.status(500).json({ error: "server" }); }
+  } catch (err) { return res.status(500).json({ error: "server", detail: String(err && err.message || err).slice(0, 300) }); }
 };

@@ -288,7 +288,7 @@ ctl=new AbortController();$("go").disabled=true;$("stop").hidden=false;st.textCo
   try{
     const r=await fetch("/api/brand",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({zadani,kod:$("kod").value}),signal:ctl.signal});
     const j=await r.json().catch(()=>({}));
-    if(!r.ok)throw {code:j.error||"server"};
+    if(!r.ok)throw {code:j.error||"server",detail:(j.status?"HTTP "+j.status+": ":"")+(j.detail||"")};
     const b=j.brand;
     if(!b||!b.nazev)throw {code:"bad_output"};
     render(b,false);hist.unshift({zadani,brand:b,at:Date.now()});hist=hist.slice(0,10);try{localStorage.setItem("brand-hist",JSON.stringify(hist))}catch(e){}renderHist();
@@ -297,7 +297,7 @@ ctl=new AbortController();$("go").disabled=true;$("stop").hidden=false;st.textCo
     const c=err&&err.code;
     st.className=c==="cancelled"?"":"err";
     const name=err&&err.name;
-    st.textContent=(c==="cancelled"||name==="AbortError")?"Zastaveno.":c==="bad_code"?"Zadejte správný přístupový kód.":c==="not_configured"?"Generování ještě není zapnuté (chybí API klíč na Vercelu).":c==="rate_limited"?"Moc požadavků najednou, zkuste to za chvíli.":"Návrh se nepodařilo vytvořit, zkuste to znovu.";
+    st.textContent=(c==="cancelled"||name==="AbortError")?"Zastaveno.":c==="bad_code"?"Zadejte správný přístupový kód.":c==="not_configured"?"Generování ještě není zapnuté (chybí API klíč na Vercelu).":c==="rate_limited"?"Moc požadavků najednou, zkuste to za chvíli.":"Návrh se nepodařilo vytvořit"+(err&&err.detail?" ("+err.detail+")":"")+". Zkuste to znovu.";
     if(c==="bad_code")$("kodbox").hidden=false;
     render(hist[0]?.brand||SAMPLE,!hist.length);
   }finally{$("go").disabled=false;$("stop").hidden=true}
