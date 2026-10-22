@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="BT Brand Studio: brand koncept včetně loga, palety, písma a tónu komunikace podle oboru a barevnosti.">
+<title>BT Brand Studio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+[hidden]{display:none!important}
+html,body{margin:0}
+/* Layout: ateliér brand manažera — vlevo zadání (obory, barvy, styl), vpravo vygenerovaný brand book jako list papíru; neutrální grafit, aby vynikly barvy brandu */
+:root{
+  --bg:#efeeea; --paper:#fbfaf7; --ink:#1d1f22; --muted:#686b70; --line:#dcd9d2; --soft:#e6e4de;
+  --accent:#2a59d6; --accent-ink:#ffffff; --ok:#2e7d4f; --warn:#b4552a;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#141518;--paper:#1c1e22;--ink:#ecebe7;--muted:#a2a4a8;--line:#30333a;--soft:#25282d;--accent:#7f9df0;--accent-ink:#0f1630;--ok:#6cc391;--warn:#e98c5f;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141518;--paper:#1c1e22;--ink:#ecebe7;--muted:#a2a4a8;--line:#30333a;--soft:#25282d;--accent:#7f9df0;--accent-ink:#0f1630;--ok:#6cc391;--warn:#e98c5f;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15.5px/1.55 var(--f-body)}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.1;text-wrap:balance}
+.app{max-width:1280px;margin:0 auto;padding-block:22px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;grid-template-columns:380px minmax(0,1fr);gap:22px;align-items:start}
+.top{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:10px}
+.top h1{font-size:clamp(30px,4.5vw,46px);font-weight:800;letter-spacing:-.03em}
+.top p{margin:4px 0 0;color:var(--muted);max-width:60ch}
+.badge{font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+/* zadání */
+form{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px;display:grid;gap:18px}
+fieldset{border:0;margin:0;padding:0;display:grid;gap:8px;min-width:0}
+legend{font:700 13px var(--f-display);letter-spacing:.06em;text-transform:uppercase;padding:0;margin-bottom:8px}
+.hint{font-size:13px;color:var(--muted);margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{position:relative}
+.chip input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.chip span{display:block;font:500 14px var(--f-body);padding:7px 12px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);user-select:none}
+.chip input:checked+span{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.chip input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+input[type=text],textarea{font:inherit;width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink)}
+textarea{min-height:64px;resize:vertical}
+input[type=text]:focus,textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.colors{display:grid;gap:8px}
+.crow{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:8px;align-items:center}
+.crow input[type=color]{width:44px;height:40px;border:1.5px solid var(--line);border-radius:10px;padding:2px;background:var(--bg);cursor:pointer}
+.crow input[type=text]{font-family:var(--f-mono);font-size:14px}
+.x{border:0;background:none;color:var(--muted);font-size:20px;cursor:pointer;padding:4px 8px;border-radius:8px}
+.x:hover{background:var(--soft);color:var(--ink)}
+.link{border:0;background:none;color:var(--accent);font:600 14px var(--f-body);cursor:pointer;justify-self:start;padding:2px 0}
+.go{font:700 16px var(--f-display);letter-spacing:.01em;padding:14px 18px;border-radius:12px;border:0;background:var(--accent);color:var(--accent-ink);cursor:pointer}
+.go:disabled{opacity:.55;cursor:progress}
+.row2{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ghost{font:600 14px var(--f-body);padding:9px 14px;border-radius:10px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+#status{font-size:14px;color:var(--muted);min-height:1.2em;margin:0}
+#status.err{color:var(--warn)}
+.history{display:flex;flex-wrap:wrap;gap:6px}
+.history button{font:500 13px var(--f-body);padding:5px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+/* brand book */
+.book{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;min-width:0}
+.sample{font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;background:var(--soft);color:var(--muted);padding:8px 20px}
+.cover{padding:36px 28px 30px;display:grid;gap:18px;color:var(--b-on);background:var(--b-primary)}
+.cover .logo{background:var(--b-light);border-radius:14px;padding:26px;display:grid;place-items:center;min-height:170px}
+.cover .logo svg{max-width:100%;height:auto;max-height:140px}
+.cover h2{font-family:var(--b-head);font-size:clamp(32px,5vw,52px);font-weight:700}
+.cover p{margin:0;font-family:var(--b-body);font-size:18px;opacity:.92}
+.sec{padding:26px 28px;border-top:1px solid var(--line);display:grid;gap:14px}
+.sec h3{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.lead{font-size:18px;max-width:62ch;margin:0}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.val{background:var(--bg);border-radius:12px;padding:14px}
+.val b{display:block;font-family:var(--f-display);font-size:17px;margin-bottom:4px}
+.val p{margin:0;font-size:14.5px;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font-size:14px;padding:5px 11px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
+.kv{display:grid;grid-template-columns:160px minmax(0,1fr);gap:8px 16px;margin:0}
+.kv dt{font-weight:600}.kv dd{margin:0;color:var(--muted)}
+.palette{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.sw{border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--bg);display:grid}
+.sw i{display:block;height:92px}
+.sw div{padding:10px 12px;display:grid;gap:2px}
+.sw b{font-family:var(--f-display);font-size:15px}
+.sw code{font:500 13px var(--f-mono)}
+.sw small{color:var(--muted);font-size:12.5px;line-height:1.35}
+.ratio{display:flex;height:16px;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+.type{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.type .val .spec{font-size:34px;line-height:1.1;margin:4px 0 8px;color:var(--ink)}
+.logos{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+.lbox{border-radius:12px;border:1px solid var(--line);display:grid;place-items:center;padding:20px;min-height:130px}
+.lbox svg{max-width:100%;height:auto;max-height:100px}
+.mock{display:grid;grid-template-columns:1fr 1.25fr;gap:14px;align-items:start}
+.card{aspect-ratio:85/55;max-width:100%;border-radius:10px;background:var(--b-light);color:var(--b-dark);padding:18px;display:grid;align-content:space-between;box-shadow:0 8px 24px rgba(0,0,0,.12);font-family:var(--b-body)}
+.card .lg svg{height:34px;width:auto;max-width:100%}
+.card b{font-family:var(--b-head);font-size:16px;display:block}
+.card small{font-size:12px;opacity:.8}
+.post{aspect-ratio:1/1;max-width:100%;border-radius:12px;background:var(--b-primary);color:var(--b-on);padding:22px;display:grid;align-content:space-between;font-family:var(--b-body)}
+.post h4{font-family:var(--b-head);font-size:clamp(20px,2.6vw,28px);margin:0;line-height:1.1}
+.post .pill{justify-self:start;background:var(--b-accent);color:var(--b-dark);font-weight:700;font-size:13px;padding:6px 12px;border-radius:999px}
+.web{grid-column:1/-1;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:var(--b-light);color:var(--b-dark);font-family:var(--b-body)}
+.web nav{display:flex;justify-content:space-between;align-items:center;padding:12px 18px;border-bottom:1px solid rgba(0,0,0,.08)}
+.web nav svg{height:26px;width:auto}
+.web nav span{font-size:13px;opacity:.75}
+.web .hero{padding:28px 18px 30px;display:grid;gap:10px}
+.web .hero h4{font-family:var(--b-head);font-size:clamp(22px,3vw,32px);margin:0;line-height:1.1;max-width:22ch}
+.web .hero button{justify-self:start;font:700 14px var(--b-body);background:var(--b-primary);color:var(--b-on);border:0;border-radius:8px;padding:10px 16px}
+.dd{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dd ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.dd h4{margin:0 0 6px;font-family:var(--f-display);font-size:16px}
+.dd .ok h4{color:var(--ok)}.dd .no h4{color:var(--warn)}
+.note{background:var(--bg);border-left:3px solid var(--accent);border-radius:0 12px 12px 0;padding:14px 16px;margin:0;font-size:15.5px}
+.note b{font-family:var(--f-display)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.thinking{padding:60px 28px;text-align:center;color:var(--muted);display:grid;gap:12px;justify-items:center}
+.dots{display:flex;gap:6px}.dots i{width:10px;height:10px;border-radius:50%;background:var(--accent);animation:b 1.2s infinite ease-in-out}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
+@keyframes b{0%,80%,100%{transform:scale(.5);opacity:.4}40%{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.dots i{animation:none}}
+@media (max-width:980px){.app{grid-template-columns:minmax(0,1fr)}form{position:static}}
+@media (max-width:700px){.palette{grid-template-columns:repeat(2,minmax(0,1fr))}.grid3,.type,.dd,.mock{grid-template-columns:minmax(0,1fr)}.logos{grid-template-columns:1fr 1fr}.logos .lbox:first-child{grid-column:1/-1}.kv{grid-template-columns:minmax(0,1fr)}.kv dd{margin-bottom:6px}.cover,.sec{padding-left:18px;padding-right:18px}}
+</style>
+</head>
+<body>
+
+
+<div class="app">
+  <header class="top">
+    <div><h1>BT Brand Studio</h1><p>Zadejte obor, barevnost a styl. Brand manažer s 30 lety praxe z toho navrhne celý brand: název, logo, paletu, písmo, tón komunikace a ukázky použití.</p></div>
+    <span class="badge">Brand manažer · 30 let praxe</span>
+  </header>
+
+  <form id="f" autocomplete="off">
+    <fieldset>
+      <legend>1 · Obor</legend>
+      <div class="chips" id="obory"></div>
+      <input type="text" id="obor-jiny" placeholder="Doplnit další obor nebo upřesnění, např. developerské projekty pro mladé rodiny">
+    </fieldset>
+    <fieldset>
+      <legend>2 · Barevnost</legend>
+      <div class="colors" id="colors"></div>
+      <button type="button" class="link" id="addc">+ přidat barvu</button>
+      <input type="text" id="barvy-text" placeholder="Barevnost slovy, např. zemité tóny, žádná červená">
+    </fieldset>
+    <fieldset>
+      <legend>3 · Charakter</legend>
+      <div class="chips" id="styly"></div>
+    </fieldset>
+    <fieldset>
+      <legend>4 · Doplnění</legend>
+      <input type="text" id="nazev" placeholder="Název značky (nechte prázdné a navrhnu ho)">
+      <textarea id="popis" placeholder="Pro koho je značka, co nabízí, čím se liší od konkurence…"></textarea>
+    </fieldset>
+    <fieldset id="kodbox" hidden><legend>Přístupový kód</legend><input type="text" id="kod" placeholder="Kód pro generování"></fieldset>
+    <button class="go" type="submit" id="go">Vygenerovat brand</button>
+    <div class="row2"><button type="button" class="ghost" id="stop" hidden>Zastavit</button><p id="status" role="status"></p></div>
+    <fieldset id="histbox" hidden>
+      <legend>Předchozí koncepty</legend>
+      <div class="history" id="hist"></div>
+    </fieldset>
+  </form>
+
+  <main class="book" id="book" aria-live="polite"></main>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const OBORY=["Reality","Finance","IT","Pojištění","Zdraví","Gastro","Vzdělávání","Móda","Sport","Energetika","Právo","Stavebnictví","Retail","Cestování"];
+const STYLY=["Důvěryhodný","Moderní","Prémiový","Přátelský","Minimalistický","Odvážný","Tradiční","Hravý","Technologický","Udržitelný"];
+$("obory").innerHTML=OBORY.map((o,i)=>`<label class="chip"><input type="checkbox" id="o${i}" value="${o}" ${o==="Reality"||o==="Finance"?"checked":""}><span>${o}</span></label>`).join("");
+$("styly").innerHTML=STYLY.map((o,i)=>`<label class="chip"><input type="checkbox" id="s${i}" value="${o}" ${o==="Důvěryhodný"||o==="Moderní"?"checked":""}><span>${o}</span></label>`).join("");
+
+let colors=["#1f4e5f","#e3a33b"];
+function renderColors(){
+  $("colors").innerHTML=colors.map((c,i)=>`<div class="crow"><input type="color" id="cp${i}" value="${c}" aria-label="Barva ${i+1}"><input type="text" id="ct${i}" value="${c}" maxlength="7" aria-label="Kód barvy ${i+1}"><button type="button" class="x" data-i="${i}" aria-label="Odebrat barvu">×</button></div>`).join("")||'<p class="hint">Bez barev: paletu navrhnu sám.</p>';
+  $("addc").hidden=colors.length>=5;
+}
+$("colors").addEventListener("input",e=>{const m=e.target.id.match(/^c([pt])(\d)$/);if(!m)return;const i=+m[2],v=e.target.value.trim();
+  if(m[1]==="p"){colors[i]=v;$("ct"+i).value=v}else if(/^#[0-9a-f]{6}$/i.test(v)){colors[i]=v;$("cp"+i).value=v}});
+$("colors").addEventListener("click",e=>{const b=e.target.closest(".x");if(!b)return;colors.splice(+b.dataset.i,1);renderColors()});
+$("addc").onclick=()=>{colors.push(["#7a8f3c","#b8c4d6","#2d2a32","#d96c4f"][colors.length%4]);renderColors()};
+renderColors();
+
+/* ---------- bezpečné vykreslení SVG z odpovědi ---------- */
+const OKTAG=new Set("svg g path circle rect ellipse line polyline polygon text tspan defs lineargradient radialgradient stop clippath mask title".split(" "));
+const OKATTR=/^(viewbox|xmlns|width|height|x|y|x1|x2|y1|y2|cx|cy|r|rx|ry|d|points|fill|fill-rule|clip-rule|fill-opacity|stroke|stroke-width|stroke-linecap|stroke-linejoin|stroke-opacity|opacity|transform|font-family|font-size|font-weight|letter-spacing|text-anchor|dominant-baseline|offset|stop-color|stop-opacity|gradientunits|gradienttransform|id|clip-path|mask|preserveaspectratio)$/i;
+function cleanSvg(src){
+  try{
+    const doc=new DOMParser().parseFromString(String(src||""),"image/svg+xml");const root=doc.documentElement;
+    if(!root||root.nodeName.toLowerCase()!=="svg"||doc.querySelector("parsererror"))return null;
+    (function walk(n){[...n.children].forEach(c=>{if(!OKTAG.has(c.nodeName.toLowerCase())){c.remove();return}walk(c)});
+      [...n.attributes].forEach(a=>{const v=a.value;if(!OKATTR.test(a.name)||/javascript:|url\((?!#)/i.test(v))n.removeAttribute(a.name)})})(root);
+    root.removeAttribute("width");root.removeAttribute("height");root.setAttribute("role","img");
+    return root.outerHTML;
+  }catch(e){return null}
+}
+const fallbackMark=(name,c1,c2)=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="6" width="88" height="88" rx="22" fill="${c1}"/><text x="50" y="66" text-anchor="middle" font-size="46" font-weight="700" fill="${c2}" font-family="sans-serif">${esc((name||"B").slice(0,1).toUpperCase())}</text></svg>`;
+const hexOk=h=>/^#[0-9a-f]{6}$/i.test(h);
+function lum(h){const n=parseInt(h.slice(1),16),r=(n>>16&255)/255,g=(n>>8&255)/255,b=(n&255)/255,f=c=>c<=.03928?c/12.92:Math.pow((c+.055)/1.055,2.4);return .2126*f(r)+.7152*f(g)+.0722*f(b)}
+const onColor=h=>hexOk(h)&&lum(h)>.45?"#151515":"#ffffff";
+const loadedFonts=new Set();
+function loadFont(name){if(!name||!/^[A-Za-z0-9 ]{2,40}$/.test(name)||loadedFonts.has(name))return;loadedFonts.add(name);
+  const l=document.createElement("link");l.rel="stylesheet";l.href="https://fonts.googleapis.com/css2?family="+encodeURIComponent(name).replace(/%20/g,"+")+":wght@400;600;700&display=swap";document.head.appendChild(l)}
+
+/* ---------- brand book ---------- */
+function render(b,isSample){
+  const pal=(b.paleta||[]).filter(p=>hexOk(p.hex));
+  const byRole=r=>(pal.find(p=>(p.role||"").toLowerCase().includes(r))||{}).hex;
+  const primary=byRole("prim")||pal[0]?.hex||"#1f4e5f", accent=byRole("akcent")||pal[2]?.hex||pal[1]?.hex||"#e3a33b";
+  const dark=byRole("tmav")||"#1b1d20", light=byRole("světl")||byRole("svetl")||"#f6f4ef";
+  const head=b.typografie?.nadpisy?.font||"Bricolage Grotesque", body=b.typografie?.text?.font||"IBM Plex Sans";
+  loadFont(head);loadFont(body);
+  const logo=cleanSvg(b.logo?.logo_svg)||fallbackMark(b.nazev,primary,onColor(primary));
+  const mark=cleanSvg(b.logo?.symbol_svg)||fallbackMark(b.nazev,primary,onColor(primary));
+  const book=$("book");
+  book.style.cssText=`--b-primary:${primary};--b-on:${onColor(primary)};--b-accent:${accent};--b-dark:${dark};--b-light:${light};--b-head:"${head}",var(--f-display);--b-body:"${body}",var(--f-body)`;
+  const total=pal.reduce((s,p)=>s+(+p.podil||0),0)||1;
+  book.innerHTML=`
+  ${isSample?'<div class="sample">Ukázka · vygenerujte vlastní brand vlevo</div>':""}
+  <section class="cover"><div class="logo">${logo}</div>
+    <div><h2>${esc(b.nazev)}</h2><p>${esc(b.claim)}</p></div></section>
+  <section class="sec"><h3>Esence značky</h3><p class="lead">${esc(b.esence)}</p>${b.pribeh?`<p style="margin:0;max-width:65ch">${esc(b.pribeh)}</p>`:""}
+    ${(b.alternativy||[]).length?`<p class="hint">Další možné názvy: ${b.alternativy.map(esc).join(" · ")}</p>`:""}</section>
+  <section class="sec"><h3>Hodnoty</h3><div class="grid3">${(b.hodnoty||[]).map(h=>`<div class="val"><b>${esc(h.nazev)}</b><p>${esc(h.popis)}</p></div>`).join("")}</div>
+    <div class="tags">${(b.osobnost||[]).map(o=>`<span>${esc(o)}</span>`).join("")}</div>
+    <dl class="kv"><dt>Cílová skupina</dt><dd>${esc(b.cilovaSkupina)}</dd><dt>Tón komunikace</dt><dd>${esc(b.tonHlasu)}</dd></dl></section>
+  <section class="sec"><h3>Logo</h3>
+    <div class="logos"><div class="lbox" style="background:${light}">${logo}</div><div class="lbox" style="background:${primary}">${mark}</div><div class="lbox" style="background:${dark}">${mark}</div></div>
+    <p style="margin:0;max-width:65ch">${esc(b.logo?.popis)}</p>${b.logo?.konstrukce?`<p class="hint">${esc(b.logo.konstrukce)}</p>`:""}</section>
+  <section class="sec"><h3>Barevná paleta</h3>
+    <div class="palette">${pal.map(p=>`<div class="sw"><i style="background:${p.hex}"></i><div><b>${esc(p.nazev)}</b><code>${esc(p.hex.toUpperCase())}</code><small>${esc(p.role)}${p.podil?` · ${p.podil} %`:""}<br>${esc(p.pouziti)}</small></div></div>`).join("")}</div>
+    <div class="ratio" aria-label="Poměr barev">${pal.map(p=>`<i style="flex:${(+p.podil||1)/total};background:${p.hex}"></i>`).join("")}</div></section>
+  <section class="sec"><h3>Typografie</h3><div class="type">
+    <div class="val"><small class="hint">Nadpisy · ${esc(head)}</small><div class="spec" style="font-family:'${esc(head)}';font-weight:${+b.typografie?.nadpisy?.vaha||700}">Aa Čč Řř 123</div><p>${esc(b.typografie?.nadpisy?.proc)}</p></div>
+    <div class="val"><small class="hint">Text · ${esc(body)}</small><div class="spec" style="font-family:'${esc(body)}';font-weight:${+b.typografie?.text?.vaha||400}">Aa Čč Řř 123</div><p>${esc(b.typografie?.text?.proc)}</p></div></div></section>
+  <section class="sec"><h3>Použití</h3><div class="mock">
+    <div class="card"><div class="lg">${logo}</div><div><b>Jana Nováková</b><small>${esc(b.pouziti?.vizitka_pozice||"Jednatelka")}<br>+420 777 000 000 · info@${esc((b.nazev||"brand").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]/g,""))}.cz</small></div></div>
+    <div class="post"><span class="pill">${esc(b.nazev)}</span><h4>${esc(b.pouziti?.social_post||b.claim)}</h4><small style="opacity:.8">${esc(b.claim)}</small></div>
+    <div class="web"><nav>${mark}<span>Služby · O nás · Kontakt</span></nav><div class="hero"><h4>${esc(b.pouziti?.web_headline||b.claim)}</h4><button type="button" tabindex="-1">Domluvit schůzku</button></div></div>
+  </div></section>
+  <section class="sec"><h3>Pravidla</h3><div class="dd"><div class="ok"><h4>Ano</h4><ul>${(b.doporuceni||[]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div><div class="no"><h4>Ne</h4><ul>${(b.zakazy||[]).map(x=>`<li>${esc(x)}</li>`).join("")}</ul></div></div>
+    ${b.komentar?`<p class="note"><b>Poznámka brand manažera:</b> ${esc(b.komentar)}</p>`:""}
+    <div class="actions"><button type="button" class="ghost" id="copybrief">Kopírovat brand brief</button><button type="button" class="ghost" id="copysvg">Kopírovat SVG loga</button><span class="hint" id="copymsg"></span></div></section>`;
+  const copy=async(t,ok)=>{const m=$("copymsg");try{await navigator.clipboard.writeText(t);m.textContent=ok}catch(e){m.textContent="Kopírování tu nejde, označte text ručně."}};
+  $("copybrief").onclick=()=>copy(brief(b),"Brief zkopírován.");
+  $("copysvg").onclick=()=>copy(logo,"SVG loga zkopírováno.");
+}
+function brief(b){return [`BRAND: ${b.nazev}`,`Claim: ${b.claim}`,`Esence: ${b.esence}`,b.pribeh?`Příběh: ${b.pribeh}`:"",
+ `Hodnoty: ${(b.hodnoty||[]).map(h=>h.nazev+" – "+h.popis).join("; ")}`,`Osobnost: ${(b.osobnost||[]).join(", ")}`,`Cílová skupina: ${b.cilovaSkupina}`,`Tón: ${b.tonHlasu}`,
+ `Paleta: ${(b.paleta||[]).map(p=>`${p.nazev} ${p.hex} (${p.role}, ${p.podil} %)`).join("; ")}`,
+ `Písmo: nadpisy ${b.typografie?.nadpisy?.font}, text ${b.typografie?.text?.font}`,`Logo: ${b.logo?.popis}`,
+ `Ano: ${(b.doporuceni||[]).join("; ")}`,`Ne: ${(b.zakazy||[]).join("; ")}`].filter(Boolean).join("\n")}
+
+/* ---------- ukázka (vidět hned po otevření) ---------- */
+const SAMPLE={nazev:"Kotva",alternativy:["Pevný bod","Domov+"],claim:"Jistota pro váš domov i peníze.",esence:"Kotva spojuje realitní a finanční poradenství pod jednou střechou, aby klient udělal největší rozhodnutí života s klidnou hlavou.",
+ pribeh:"Koupě bydlení je pro většinu lidí největší finanční krok. Kotva provede klienta od výběru nemovitosti přes hypotéku až po pojištění, s jedním poradcem a jedním plánem.",
+ hodnoty:[{nazev:"Jistota",popis:"Každé doporučení stojí na číslech a je doložené."},{nazev:"Lidskost",popis:"Mluvíme srozumitelně a máme čas na otázky."},{nazev:"Celek",popis:"Bydlení, financování a ochranu řešíme dohromady."}],
+ osobnost:["klidná","kompetentní","vstřícná","přímá"],cilovaSkupina:"Páry a rodiny 28–45 let před koupí prvního nebo většího bydlení.",tonHlasu:"Věcný a laskavý. Krátké věty, žádný žargon, čísla vždy s vysvětlením.",
+ paleta:[{nazev:"Hlubina",hex:"#1f4e5f",role:"primární",podil:40,pouziti:"logo, nadpisy, hlavní plochy"},{nazev:"Jantar",hex:"#e3a33b",role:"akcent",podil:10,pouziti:"výzvy k akci, zvýraznění"},{nazev:"Mořská pěna",hex:"#9cc5c0",role:"sekundární",podil:15,pouziti:"ilustrace, grafy"},{nazev:"Břidlice",hex:"#1b2529",role:"neutrální tmavá",podil:15,pouziti:"text"},{nazev:"Písek",hex:"#f5f1e8",role:"neutrální světlá",podil:20,pouziti:"pozadí"}],
+ typografie:{nadpisy:{font:"Bricolage Grotesque",vaha:700,proc:"Pevný a moderní, s lidským charakterem."},text:{font:"IBM Plex Sans",vaha:400,proc:"Velmi čitelné písmo s českou diakritikou pro smlouvy i web."}},
+ logo:{popis:"Symbol tvoří stylizovaná kotva vepsaná do tvaru domu: střecha nahoře, kotva jako pevný základ. Vedle stojí název v pevném groteskovém písmu.",konstrukce:"Symbol na čtvercové mřížce 100 × 100, ochranná zóna = výška písmene K.",
+  symbol_svg:'<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 8 L90 40 V92 H10 V40 Z" fill="#1f4e5f"/><circle cx="50" cy="40" r="7" fill="none" stroke="#f5f1e8" stroke-width="5"/><path d="M50 47 V80 M34 66 Q36 80 50 80 Q64 80 66 66 M40 55 H60" fill="none" stroke="#f5f1e8" stroke-width="5" stroke-linecap="round"/><circle cx="50" cy="80" r="3" fill="#e3a33b"/></svg>',
+  logo_svg:'<svg viewBox="0 0 330 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 8 L90 40 V92 H10 V40 Z" fill="#1f4e5f"/><circle cx="50" cy="40" r="7" fill="none" stroke="#f5f1e8" stroke-width="5"/><path d="M50 47 V80 M34 66 Q36 80 50 80 Q64 80 66 66 M40 55 H60" fill="none" stroke="#f5f1e8" stroke-width="5" stroke-linecap="round"/><circle cx="50" cy="80" r="3" fill="#e3a33b"/><text x="108" y="72" font-family="Bricolage Grotesque, sans-serif" font-size="56" font-weight="700" fill="#1f4e5f" letter-spacing="-1">Kotva</text></svg>'},
+ pouziti:{web_headline:"Bydlení, hypotéka i pojištění. Jeden poradce, jeden plán.",social_post:"Kupujete první byt? Projdeme to s vámi krok za krokem.",vizitka_pozice:"Realitní a finanční poradkyně"},
+ doporuceni:["Jantarovou používat střídmě, jen pro výzvy k akci","Na fotografiích skuteční lidé ve skutečných domovech","Čísla vždy s krátkým vysvětlením"],
+ zakazy:["Logo nedeformovat ani neotáčet","Nepoužívat agresivní slevové slogany","Nedávat jantarový text na světlé pozadí"],
+ komentar:"Spojení realit a financí je silné, pokud značka působí klidně. Proto tlumená petrolejová místo typické bankovní modré a jediný teplý akcent."};
+render(SAMPLE,true);
+
+/* ---------- historie (jen v tomto prohlížeči) ---------- */
+let hist=[];try{hist=JSON.parse(localStorage.getItem("brand-hist")||"[]")}catch(e){}
+function renderHist(){$("histbox").hidden=!hist.length;$("hist").innerHTML=hist.map((h,i)=>`<button type="button" data-i="${i}" title="${esc(h.brand.claim)}">${esc(h.brand.nazev)}</button>`).join("")}
+$("hist").onclick=e=>{const b=e.target.closest("button");if(b)render(hist[+b.dataset.i].brand,false)};
+renderHist();
+
+/* ---------- generování ---------- */
+let ctl=null;
+fetch("/api/brand",{cache:"no-store"}).then(r=>r.json()).then(j=>{if(j.requiresCode)$("kodbox").hidden=false;if(!j.configured){$("status").textContent="Generování ještě není zapnuté (chybí API klíč na Vercelu).";$("status").className="err"}}).catch(()=>{});
+$("stop").onclick=()=>ctl?.abort();
+$("f").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const obory=[...document.querySelectorAll("#obory input:checked")].map(i=>i.value);const jiny=$("obor-jiny").value.trim();if(jiny)obory.push(jiny);
+  const styly=[...document.querySelectorAll("#styly input:checked")].map(i=>i.value);
+  const st=$("status");st.className="";
+  if(!obory.length){st.textContent="Vyberte nebo doplňte aspoň jeden obor.";st.className="err";return}
+  const zadani={obory,barvy:colors.filter(hexOk),barvySlovy:$("barvy-text").value.trim(),charakter:styly,nazev:$("nazev").value.trim(),popis:$("popis").value.trim()};
+ctl=new AbortController();$("go").disabled=true;$("stop").hidden=false;st.textContent="";
+  $("book").style.cssText="";$("book").innerHTML='<div class="thinking"><div class="dots"><i></i><i></i><i></i></div><b>Navrhuji brand…</b><span>Promýšlím pozici, název, paletu a logo. Trvá to obvykle 1–2 minuty.</span></div>';
+  try{
+    const r=await fetch("/api/brand",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({zadani,kod:$("kod").value}),signal:ctl.signal});
+    const j=await r.json().catch(()=>({}));
+    if(!r.ok)throw {code:j.error||"server"};
+    const b=j.brand;
+    if(!b||!b.nazev)throw {code:"bad_output"};
+    render(b,false);hist.unshift({zadani,brand:b,at:Date.now()});hist=hist.slice(0,10);try{localStorage.setItem("brand-hist",JSON.stringify(hist))}catch(e){}renderHist();
+    st.textContent="Hotovo. Úpravu zadání a nový návrh spustíte stejným tlačítkem.";
+  }catch(err){
+    const c=err&&err.code;
+    st.className=c==="cancelled"?"":"err";
+    const name=err&&err.name;
+    st.textContent=(c==="cancelled"||name==="AbortError")?"Zastaveno.":c==="bad_code"?"Zadejte správný přístupový kód.":c==="not_configured"?"Generování ještě není zapnuté (chybí API klíč na Vercelu).":c==="rate_limited"?"Moc požadavků najednou, zkuste to za chvíli.":"Návrh se nepodařilo vytvořit, zkuste to znovu.";
+    if(c==="bad_code")$("kodbox").hidden=false;
+    render(hist[0]?.brand||SAMPLE,!hist.length);
+  }finally{$("go").disabled=false;$("stop").hidden=true}
+});
+</script>
+
+</body>
+</html>
